@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cargar Poema JSON</title>
+</head>
+<body>
+    <h1>Poema</h1>
+    <div id="poema"></div>
+
+    <script>
+        // Función asíncrona para cargar el JSON
+        async function cargarPoema() {
+            try {
+                // Realiza una petición para obtener el archivo JSON
+                const respuesta = await fetch('poemas.json');
+                // Parsea el JSON a un objeto JavaScript
+                const poema = await respuesta.json();
+
+                // Aquí puedes usar el objeto `poema` como desees
+                // Por ejemplo, mostrarlo en la página:
+                const contenedor = document.getElementById('poema');
+                contenedor.innerHTML = `<h2>${poema.titulo}</h2><p>Autor: ${poema.autor}</p>`;
+                poema.estrofas.forEach(estrofa => {
+                    const parrafo = document.createElement('p');
+                    estrofa.lineas.forEach(linea => {
+                        parrafo.innerHTML += `${linea}<br>`;
+                    });
+                    contenedor.appendChild(parrafo);
+                });
+            } catch (error) {
+                console.error('Error al cargar el poema:', error);
+            }
+        }
+
+        // Llama a la función al cargar la página
+        cargarPoema();
+    </script>
+</body>
+</html>
